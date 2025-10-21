@@ -1,0 +1,11 @@
+{
+    "yup": {
+        "required": "{field}は必須です。"
+    },
+    "button": {
+        "login": "ログイン"
+    },
+    "label": {
+        "employee_id": "社員番号"
+    }
+}
