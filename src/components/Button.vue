@@ -1,12 +1,7 @@
 <template>
     <button
         :type="type"
-        :class="[
-            'px-4 py-1 rounded-md transition-colors duration-200 hover:cursor-pointer',
-            variantClass,
-            { 'w-full': grid },
-            $attrs.class,
-        ]"
+        :class="buttonClass"
         v-bind="$attrs"
     >
         <slot></slot>
@@ -14,28 +9,32 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const props = defineProps({
-    type: {
-        type: String,
-        default: 'button',
-    },
-    variant: {
-        type: String,
-        default: 'primary',
-    },
-    grid: {
-        type: Boolean,
-        default: false,
-    },
+    type: { type: String, default: 'button' },
+    variant: { type: String, default: 'primary' },
+    grid: { type: Boolean, default: false },
 });
+const attrs  = useAttrs();
 
-const variantClass = computed(() => {
-    switch (props.variant) {
-        case 'primary':
-        default:
-            return 'bg-blue-500 text-white hover:bg-blue-700'
+const buttonClass = computed(() => {
+    const classes = [
+        'px-4 py-1 rounded-md transition-colors duration-200 bg-blue-500 text-white',
+        props.grid ? 'w-full' : '',
+        attrs.class || '',
+    ];
+
+    if (attrs.disabled) {
+        classes.push('opacity-75');
+    } else {
+        switch (props.variant) {
+            case 'primary':
+            default:
+                classes.push('hover:bg-blue-600 hover:cursor-pointer');
+        }
     }
+
+    return classes.join(' ');
 });
 </script>
